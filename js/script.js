@@ -1,5 +1,6 @@
 //intervalo de cada cuanto ms se ejecuta looper
 const INTERVALO = 80;
+const PESO = 10;
 
 const DIRECCION = {
   //creo objeto donde guardo las posibles direcciones
@@ -31,30 +32,32 @@ let looper = () => {
   const cabezaSnake = controles.snake[0];
   let posicionX = controles.direccion.x;
   let posicionY = controles.direccion.y;
-  cabezaSnake.x += posicionX;//para movimiento
-  cabezaSnake.y += posicionY;//para movimiento
+  cabezaSnake.x += posicionX; //para movimiento
+  cabezaSnake.y += posicionY; //para movimiento
   requestAnimationFrame(dibujarSnake);
-
-  console.log("looper");
   setTimeout(looper, INTERVALO);
 };
 document.onkeydown = (e) => {
   direccion = DIRECCION[e.key];
-  console.log(direccion);
+  const [x, y] = direccion;
+  if (-x !== controles.direccion.x && -y !== controles.direccion.y) {
+    controles.direccion.x = x;
+    controles.direccion.y = y;
+  }
 };
 
 //funcion para dibujar snake cada vez q se actualice posicion
 let dibujarSnake = (color) => {
-  //borrar context
+  //borrar canvas
   ctx.clearRect(0, 0, 500, 500);
   //color de lo que voy a crear(serpiente)
   ctx.fillStyle = "green";
   const cabezaSnake = controles.snake[0];
   //dibujar rectangulo. Espera 4 valores. X eje horizontal, y eje vertical,ancho,alto.
-  ctx.fillRect(cabezaSnake.x, cabezaSnake.y, 10, 10);
+  ctx.fillRect(cabezaSnake.x * PESO, cabezaSnake.y * PESO, PESO, PESO);
 };
 
 //llamar looper cuando funcion se hay cargado
 window.onload = () => {
-  //looper();
+  looper();
 };
