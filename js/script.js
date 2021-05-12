@@ -1,7 +1,9 @@
 //intervalo de cada cuanto ms se ejecuta looper
 const INTERVALO = 80;
 const PESO = 10;
-
+//ancho y alto cancas
+const ANCHO = 500;
+//configuracion de direcciones
 const DIRECCION = {
   //creo objeto donde guardo las posibles direcciones
   A: [-1, 0],
@@ -17,8 +19,17 @@ const DIRECCION = {
   ArrowRight: [1, 0],
   ArrowLeft: [-1, 0],
 };
-//objeto con direcciones snake
-let controles = { direccion: { x: 1, y: 0 }, snake: [{ x: 0, y: 0 }] };
+
+/////////////objeto con direcciones snake
+let controles = {
+  direccion: { x: 1, y: 0 },
+  snake: [{ x: 0, y: 0 }],
+  presa: { X: 0, y: 250 },
+  enJuego: false,
+};
+////////////////////*********//////////
+
+//variable con las direcciones
 let direccion;
 
 //referenciar canvas
@@ -54,11 +65,11 @@ document.onkeydown = (e) => {
     controles.direccion.y = y;
   }
 };
-
+/********************************************* */
 //funcion para dibujar snake cada vez q se actualice posicion
 let dibujarSnake = (color) => {
   //borrar canvas
-  ctx.clearRect(0, 0, 500, 500);
+  ctx.clearRect(0, 0, ANCHO, ANCHO);
   //color de lo que voy a crear(serpiente)
   ctx.fillStyle = "green";
   //instancio cabeza snake
@@ -67,7 +78,22 @@ let dibujarSnake = (color) => {
   ctx.fillRect(cabezaSnake.x * PESO, cabezaSnake.y * PESO, PESO, PESO);
 };
 
+//********************************************/
+//funcion que genera posicion inicial aleatoria
+let posicionRandom = () =>{
+  return{
+    x: parseInt(Math.random()*ANCHO/PESO),
+    y: parseInt(Math.random()*ANCHO/PESO),
+  }
+
+};
+/******************************************/
 //llamar looper cuando funcion se hay cargado
 window.onload = () => {
-  looper();
+    posiciones = posicionRandom();
+    let head = controles.snake[0];
+    head.x = posiciones.x;
+    head.y = posiciones.y;
+    console.log(head, controles.snake);
+    looper();
 };
