@@ -53,6 +53,7 @@ let looper = () => {
   //llamar a la funcion luego de X intervalo
   setTimeout(looper, INTERVALO);
 };
+/******************************************* */
 document.onkeydown = (e) => {
   //guardo la nueva direccion
   direccion = DIRECCION[e.key];
@@ -68,22 +69,30 @@ document.onkeydown = (e) => {
 /********************************************* */
 //funcion para dibujar snake cada vez q se actualice posicion
 let dibujarSnake = (color) => {
+  
+  //instancio cabeza snake
+  const cabezaSnake = controles.snake[0];
+  const victima = 
+};
+
+//****************************************** */
+let dibujar = (color, x,y) => {
   //borrar canvas
   ctx.clearRect(0, 0, ANCHO, ANCHO);
   //color de lo que voy a crear(serpiente)
-  ctx.fillStyle = "green";
-  //instancio cabeza snake
-  const cabezaSnake = controles.snake[0];
+  ctx.fillStyle = color;
   //dibujar rectangulo. Espera 4 valores. X eje horizontal, y eje vertical,ancho,alto.
   ctx.fillRect(cabezaSnake.x * PESO, cabezaSnake.y * PESO, PESO, PESO);
-};
+}
 
-//********************************************/
+/******************************************** */
 //funcion que genera posicion inicial aleatoria
 let posicionRandom = () =>{
+  let address = Object.values(DIRECCION);
   return{
     x: parseInt(Math.random()*ANCHO/PESO),
     y: parseInt(Math.random()*ANCHO/PESO),
+    d: address[parseInt(Math.random()*11)]
   }
 
 };
@@ -94,6 +103,8 @@ window.onload = () => {
     let head = controles.snake[0];
     head.x = posiciones.x;
     head.y = posiciones.y;
-    console.log(head, controles.snake);
+    controles.direccion.x = posiciones.d[0];
+    controles.direccion.y = posiciones.d[1];
+    
     looper();
 };
